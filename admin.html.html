@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | إدارة المتجر</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@500;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0a0a12;
+            --bg-card: #151520;
+            --primary: #00f3ff;
+            --secondary: #bd00ff;
+            --text-light: #ffffff;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+        }
+
+        header {
+            padding: 20px 50px;
+            background: #111;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron';
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .container {
+            padding: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid #333;
+        }
+
+        th {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .ltr-cell {
+            direction: ltr;
+            text-align: right;
+            font-family: monospace;
+        }
+
+        .btn-del {
+            background: crimson;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-refresh {
+            background: var(--secondary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">ADMIN<span>PANEL</span></div>
+        <a href="الموقع.html" class="btn-refresh" style="background: transparent; border: 1px solid white;">العودة
+            للموقع</a>
+    </header>
+
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>المستخدمين المسجلين</h1>
+            <button onclick="localStorage.removeItem('site_users'); loadData();" class="btn-del"
+                style="padding: 10px 20px; font-size: 1rem;">حذف الكل</button>
+        </div>
+
+        <table id="usersTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>الاسم</th>
+                    <th>البريد الإلكتروني</th>
+                    <th>كلمة المرور</th>
+                    <th>تاريخ التسجيل</th>
+                    <th>إجراء</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Data goes here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function loadData() {
+            const users = JSON.parse(localStorage.getItem('site_users') || '[]');
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:#777;">لا يوجد بيانات حتى الآن</td></tr>';
+                return;
+            }
+
+            users.forEach((user, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td class="ltr-cell" style="color: var(--secondary);">${user.password}</td>
+                    <td class="ltr-cell">${user.joined}</td>
+                    <td><button class="btn-del" onclick="delUser(${index})">حذف</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function delUser(index) {
+            const users = JSON.parse(localStorage.getItem('site_users') || '[]');
+            users.splice(index, 1);
+            localStorage.setItem('site_users', JSON.stringify(users));
+            loadData();
+        }
+
+        // Live Reload every 2 seconds
+        setInterval(loadData, 2000);
+        loadData();
+    </script>
+
+</body>
+
+</html>

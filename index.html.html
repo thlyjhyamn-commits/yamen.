@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تيك فيلوسيتي | المتجر الشامل</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@500;900&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* All CSS from style.css */
+        :root {
+            --bg-dark: #0a0a12;
+            --bg-card: #151520;
+            --primary: #00f3ff;
+            --secondary: #bd00ff;
+            --text-light: #ffffff;
+            --text-gray: #a0a0b0;
+            --accent-red: #ff2a6d;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 18, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links li {
+            cursor: pointer;
+        }
+
+        .nav-links a,
+        .nav-item {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover,
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        /* Action Icons */
+        .action-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            background: radial-gradient(circle at 80% 50%, rgba(0, 243, 255, 0.1), transparent 50%), linear-gradient(to left, #0a0a12 20%, transparent), url('لل/assets/مجلد جديد/hero_img.png');
+            background-size: cover;
+            background-position: center;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            z-index: 10;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            line-height: 1;
+            margin-bottom: 2rem;
+            font-family: 'Orbitron';
+        }
+
+        .hero h1 span {
+            display: block;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--text-light);
+        }
+
+        .hero h1 .highlight {
+            -webkit-text-stroke: 0;
+            color: var(--primary);
+            text-shadow: 0 0 30px rgba(0, 243, 255, 0.6);
+        }
+
+        /* Sections */
+        .view-section {
+            display: none;
+            padding-top: 100px;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin: 2rem 0 4rem;
+            font-family: 'Orbitron', sans-serif;
+            color: transparent;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+        }
+
+        /* Cards */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+            padding: 0 5% 5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.4s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-img-wrapper {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-family: 'Orbitron';
+            margin-bottom: 0.5rem;
+        }
+
+        .card-price {
+            font-size: 1.6rem;
+            color: var(--secondary);
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        /* Auth Forms */
+        .auth-view {
+            display: none;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background: url('لل/assets/مجلد جديد/hero_img.png') no-repeat center center/cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2000;
+        }
+
+        .auth-view::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 10, 18, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-view.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+
+        .auth-box {
+            position: relative;
+            background: rgba(21, 21, 32, 0.8);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 50px 15px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+        }
+
+        .input-group i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .close-auth {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* AUTH LINKS STYLE UPDATE */
+        .auth-links {
+            margin-top: 1.5rem;
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .auth-links a {
+            display: inline-block;
+            margin-top: 5px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 900;
+            cursor: pointer;
+            border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+            transition: 0.3s;
+            padding: 2px 10px;
+            background: rgba(0, 243, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .auth-links a:hover {
+            color: #fff;
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+            border-bottom-color: transparent;
+        }
+
+        /* CUSTOM TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(10, 10, 18, 0.95);
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            z-index: 3000;
+            font-family: 'Cairo';
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .toast.active {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            font-size: 1.4rem;
+        }
+
+        .toast.success {
+            border-color: #2ecc71;
+            box-shadow: 0 0 30px rgba(46, 204, 113, 0.2);
+        }
+
+        .toast.success i {
+            color: #2ecc71;
+        }
+
+        .toast.error {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 30px rgba(255, 42, 109, 0.2);
+        }
+
+        .toast.error i {
+            color: var(--accent-red);
+        }
+
+        /* Footer */
+        footer {
+            background: #050508;
+            padding: 4rem 5% 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-col h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-family: 'Orbitron';
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-gray);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary);
+        }
+
+        /* Utility */
+        .btn {
+            padding: 10px 25px;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            border: none;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">TECH<span>VELOCITY</span></div>
+        <ul class="nav-links">
+            <li class="nav-item active" onclick="showPage('home')">الرئيسية</li>
+            <li class="nav-item" onclick="showPage('builds')">تجميعات PC</li>
+            <li class="nav-item" onclick="showPage('accessories')">اكسسوارات</li>
+            <li id="adminLink" class="nav-item" style="display: none;"><a href="التحكم.html" target="_blank"
+                    style="color: var(--accent-red); text-decoration: none;">الإدارة</a></li>
+        </ul>
+        <div class="action-icons">
+            <div onclick="showAuth('login')"
+                style="cursor: pointer; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;">
+                <i class="fas fa-user-circle" style="color: var(--primary);"></i>
+                <span id="headerUserText" style="font-size: 0.9rem; font-weight: bold;">تسجيل الدخول</span>
+            </div>
+            <div style="position: relative; cursor: pointer;">
+                <i class="fas fa-shopping-cart"></i>
+                <span
+                    style="position: absolute; top: -8px; right: -8px; background: var(--secondary); color: white; font-size: 0.7rem; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home View -->
+    <div id="home" class="view-section active">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>عالـم <span>الجيمينج</span> <b class="highlight">الخاق</b></h1>
+                <p style="font-size: 1.2rem; color: var(--text-gray); margin-bottom: 2rem;">
+                    تجميعات احترافية، اكسسوارات عالية الأداء، وكل ما تحتاجه للسيطرة على اللعبة.
+                </p>
+                <div style="display: flex; gap: 1rem;">
+                    <a onclick="showPage('builds')" class="btn btn-primary">صمم جهازك</a>
+                    <a onclick="showPage('accessories')" class="btn">تصفح المنتجات</a>
+                </div>
+            </div>
+        </section>
+
+        <script> document.querySelector('.hero').style.backgroundImage = "radial-gradient(circle at 80% 50%, rgba(0, 243, 255, 0.1), transparent 50%), linear-gradient(to left, #0a0a12 20%, transparent), url('لل/assets/مجلد جديد/hero_img.png')"; </script>
+
+        <section style="padding: 5rem 5%;">
+            <h2 class="section-title">الأقسام المميزة</h2>
+            <div class="grid-container">
+                <div class="card" onclick="showPage('builds')">
+                    <div class="card-img-wrapper"><img src="لل/assets/مجلد جديد/build_white.png" class="card-img"
+                            onerror="this.src='https://via.placeholder.com/300'"></div>
+                    <div class="card-content">
+                        <h3 class="card-title">تجميـعات PC</h3>
+                        <p style="color:var(--text-gray)">أفضل التجميعات الجاهزة</p>
+                    </div>
+                </div>
+                <div class="card" onclick="showPage('accessories')">
+                    <div class="card-img-wrapper"><img src="لل/assets/مجلد جديد/accessories.png" class="card-img"
+                            onerror="this.src='https://via.placeholder.com/300'"></div>
+                    <div class="card-content">
+                        <h3 class="card-title">اكسسوارات</h3>
+                        <p style="color:var(--text-gray)">ماوسات، كيبوردات، سماعات</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Builds View -->
+    <div id="builds" class="view-section">
+        <h2 class="section-title" style="margin-top: 2rem;">تجميعات PC الاحترافية</h2>
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-img-wrapper"><img src="لل/assets/مجلد جديد/build_white.png" class="card-img"
+                        onerror="this.src='https://via.placeholder.com/300'"></div>
+                <div class="card-content">
+                    <h3 class="card-title">RTX 4090 BEAST</h3>
+                    <ul style="list-style: none; color: var(--text-gray); font-size: 0.9rem; margin: 10px 0;">
+                        <li><i class="fas fa-microchip" style="color:var(--primary)"></i> Intel Core i9-14900K</li>
+                        <li><i class="fas fa-memory" style="color:var(--primary)"></i> 64GB DDR5 6000MHz</li>
+                        <li><i class="fas fa-hdd" style="color:var(--primary)"></i> 2TB NVMe Gen4</li>
+                    </ul>
+                    <span class="card-price">1850 JOD</span>
+                    <button class="btn btn-primary" style="width:100%; margin-top:10px;">أضف للسلة</button>
+                </div>
+            </div>
+            <!-- More builds can be added here easily -->
+            <div class="card">
+                <div class="card-img-wrapper"><img src="لل/assets/مجلد جديد/hero_img.png" class="card-img"
+                        onerror="this.src='https://via.placeholder.com/300'"></div>
+                <div class="card-content">
+                    <h3 class="card-title">RTX 4070 SUPER</h3>
+                    <ul style="list-style: none; color: var(--text-gray); font-size: 0.9rem; margin: 10px 0;">
+                        <li><i class="fas fa-microchip" style="color:var(--primary)"></i> Intel Core i7-14700K</li>
+                        <li><i class="fas fa-memory" style="color:var(--primary)"></i> 32GB DDR5</li>
+                    </ul>
+                    <span class="card-price">1200 JOD</span>
+                    <button class="btn btn-primary" style="width:100%; margin-top:10px;">أضف للسلة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accessories View -->
+    <div id="accessories" class="view-section">
+        <h2 class="section-title" style="margin-top: 2rem;">اكسسوارات الجيمينج</h2>
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-img-wrapper"><img src="لل/assets/مجلد جديد/accessories.png" class="card-img"
+                        onerror="this.src='https://via.placeholder.com/300'"></div>
+                <div class="card-content">
+                    <h3 class="card-title">سماعة محيطية 7.1</h3>
+                    <p style="color:var(--text-gray)">صوت محيطي وعزل ضوضاء</p>
+                    <span class="card-price">45 JOD</span>
+                    <button class="btn btn-primary" style="width:100%; margin-top:10px;">أضف للسلة</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper"><img src="https://via.placeholder.com/300/000000/FFFFFF?text=Keyboard"
+                        class="card-img"></div>
+                <div class="card-content">
+                    <h3 class="card-title">Mechanical Keyboard</h3>
+                    <p style="color:var(--text-gray)">كيبورد ميكانيكي (Red Switch)</p>
+                    <span class="card-price">60 JOD</span>
+                    <button class="btn btn-primary" style="width:100%; margin-top:10px;">أضف للسلة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="auth-view">
+        <i class="fas fa-times close-auth" onclick="closeAuth()"></i>
+        <div class="auth-box">
+            <h2 style="font-family:'Orbitron'; margin-bottom:2rem; font-size:2rem;">تسجيل الدخول</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="loginPass" placeholder="كلمة المرور" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                <button type="submit" class="auth-btn">دخول</button>
+                <div class="auth-links">
+                    ليس لديك حساب؟ <a onclick="showAuth('register')">أنشئ حساب جديد</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="auth-view">
+        <i class="fas fa-times close-auth" onclick="closeAuth()"></i>
+        <div class="auth-box">
+            <h2 style="font-family:'Orbitron'; margin-bottom:2rem; font-size:2rem;">حساب جديد</h2>
+            <form onsubmit="handleRegister(event)">
+                <div class="input-group">
+                    <input type="text" id="regName" placeholder="الاسم الكامل" required>
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="regEmail" placeholder="البريد الإلكتروني" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="regPass" placeholder="كلمة المرور" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                <button type="submit" class="auth-btn">تسجيل</button>
+                <div class="auth-links">
+                    لديك حساب؟ <a onclick="showAuth('login')">تسجيل الدخول</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo">TECH<span>VELOCITY</span></div>
+                <p style="margin-top:1rem; color:var(--text-gray)">متجرك الأول لقطع الكمبيوتر الاحترافية.</p>
+            </div>
+            <div class="footer-col">
+                <h3>حسابي</h3>
+                <a onclick="showAuth('login')">تسجيل الدخول</a>
+            </div>
+        </div>
+        <div
+            style="text-align:center; margin-top:3rem; color:var(--text-gray); border-top:1px solid var(--border); padding-top:2rem;">
+            &copy; 2026 Tech Velocity.
+        </div>
+    </footer>
+
+    <script>
+        // Custom Toast Notification Logic
+        function showToast(msg, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type} active`;
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> <span>${msg}</span>`;
+            document.body.appendChild(toast);
+
+            // Remove after 3s
+            setTimeout(() => {
+                toast.classList.remove('active');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        // Navigation Logic
+        function showPage(pageId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+
+            // Update Active Nav
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const navLink = document.querySelector(`.nav-item[onclick="showPage('${pageId}')"]`);
+            if (navLink) navLink.classList.add('active');
+        }
+
+        // Auth Modal Logic
+        function showAuth(type) {
+            document.querySelectorAll('.auth-view').forEach(el => el.classList.remove('active'));
+            document.getElementById(type + '-modal').classList.add('active');
+        }
+
+        function closeAuth() {
+            document.querySelectorAll('.auth-view').forEach(el => el.classList.remove('active'));
+        }
+
+        // Handle Register
+        function handleRegister(e) {
+            e.preventDefault();
+            const now = new Date();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPass').value;
+
+            const user = {
+                name: name,
+                email: email,
+                password: password,
+                joined: now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString('en-US')
+            };
+
+            const users = JSON.parse(localStorage.getItem('site_users') || '[]');
+            users.push(user);
+            localStorage.setItem('site_users', JSON.stringify(users));
+
+            // Custom Notification instead of Alert
+            showToast('تم الانضمام للنخبة! حسابك جاهز.', 'success');
+
+            setTimeout(() => {
+                showAuth('login');
+            }, 1000);
+        }
+
+        // Handle Login
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+
+            const users = JSON.parse(localStorage.getItem('site_users') || '[]');
+            const user = users.find(u => u.email === email && u.password === pass);
+
+            if (user) {
+                // Custom Notification instead of Alert
+                showToast('تم الاتصال بالنظام. مرحباً بك ' + user.name, 'success');
+
+                document.getElementById('headerUserText').innerText = user.name;
+
+                // Show Admin Link if email contains 'admin'
+                if (user.email.toLowerCase().includes('admin')) {
+                    document.getElementById('adminLink').style.display = 'block';
+                }
+
+                closeAuth();
+                localStorage.setItem('currentUser', JSON.stringify(user));
+            } else {
+                showToast('البريد أو كلمة المرور غير صحيحة', 'error');
+            }
+        }
+
+        // Check Login Status on Load
+        window.onload = function () {
+            const current = JSON.parse(localStorage.getItem('currentUser'));
+            if (current) {
+                document.getElementById('headerUserText').innerText = current.name;
+                if (current.email.toLowerCase().includes('admin')) {
+                    document.getElementById('adminLink').style.display = 'block';
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
